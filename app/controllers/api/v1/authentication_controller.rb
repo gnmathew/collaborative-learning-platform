@@ -22,7 +22,7 @@ class Api::V1::AuthenticationController < ActionController::Base
   private
 
   def authorize_request
-    header = ['Authorization']
+    header = request.headers['Authorization']
     header = header.split(' ').last if header
     decoded = jwt_decode(header)
 
