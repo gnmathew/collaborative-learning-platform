@@ -2,6 +2,7 @@ module Api
   module V1
     module AdminUser
       class SessionsController < AuthenticationController
+        skip_before_action :authorize_request
 
         def create
           admin = Admin.find_by(username: admin_params[:username])
