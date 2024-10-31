@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root 'home#index'
+
   constraints(AdminDomainConstraint.new) do
     namespace :api do
       namespace :v1 do
@@ -23,4 +25,6 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get '*path', to: 'home#index', via: :all
 end
