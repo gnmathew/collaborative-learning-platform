@@ -1,9 +1,9 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import ClientRoutes from '../routes/ClientRoutes';
+import AdminRoutes from '../routes/AdminRoutes';
 import NavBar from "./NavBar"
 
-const ClientApp = () => {
+const AdminApp = () => {
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   const token = localStorage.getItem('token');
 
@@ -18,9 +18,9 @@ const ClientApp = () => {
   return (
     <div>
       { isLoggedIn && <NavBar setIsLoggedIn={setIsLoggedIn}/> }
-      <ClientRoutes setIsLoggedIn={setIsLoggedIn}/>
+      <AdminRoutes setIsLoggedIn={setIsLoggedIn}/>
     </div>
   );
 };
 
-export default ClientApp;
+export default AdminApp;

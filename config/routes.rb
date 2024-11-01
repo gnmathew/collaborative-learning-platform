@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  root 'home#index'
 
   constraints(AdminDomainConstraint.new) do
+    root 'admin_user/home#index', as: :admin_root
     namespace :api do
       namespace :v1 do
         namespace :admin_user, path: 'admin' do
@@ -9,9 +9,12 @@ Rails.application.routes.draw do
         end
       end
     end
+
+    get '*path', to: 'admin_user/home#index', via: :all
   end
 
   constraints(ClientDomainConstraint.new) do
+    root 'client_user/home#index'
     namespace :api do
       namespace :v1 do
         namespace :client_user, path: 'client' do
@@ -24,7 +27,7 @@ Rails.application.routes.draw do
         end
       end
     end
-  end
 
-  get '*path', to: 'home#index', via: :all
+    get '*path', to: 'client_user/home#index', via: :all
+  end
 end
