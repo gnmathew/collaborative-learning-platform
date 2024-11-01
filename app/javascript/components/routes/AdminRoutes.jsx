@@ -1,13 +1,13 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Home from "../Homepage/Home";
-import Sessions from "../authentication/Sessions";
-import ProtectedRoute from "../authentication/ProtectedRoute";
+import Home from "../admin/Homepage/Home";
+import Sessions from "../admin/authentication/Sessions";
+import ProtectedRoute from "../admin/authentication/ProtectedRoute";
 
-const ClientRoutes = ({setIsLoggedIn}) => {
+const AdminRoutes = ({setIsLoggedIn}) => {
     return (
       <Routes>
-        <Route path="/koda-board/login" element={<Sessions setIsLoggedIn={setIsLoggedIn}/>} />
+        <Route path="/koda-board/admin/login" element={<Sessions setIsLoggedIn={setIsLoggedIn}/>} />
 
         <Route
           path="/"
@@ -23,4 +23,4 @@ const ClientRoutes = ({setIsLoggedIn}) => {
     );
 };
 
-export default ClientRoutes;
+export default AdminRoutes;
