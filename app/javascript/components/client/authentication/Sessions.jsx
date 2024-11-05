@@ -53,10 +53,11 @@ const Sessions = ({ setIsLoggedIn }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://client.com:3000/api/v1/client/${role}/sessions`, {
+      const response = await axios.post(`http://client.com:3000/api/v1/client/sessions`, {
         client: {
           id_number: idNumber,
-          password
+          password,
+          role
         }
       });
 
