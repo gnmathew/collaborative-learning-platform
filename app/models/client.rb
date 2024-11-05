@@ -6,6 +6,9 @@ class Client < ApplicationRecord
   enum status: { active: 0, inactive: 1 }
 
   validates :email, :username, presence: true, uniqueness: true
+  validates :batch, presence: true, if: :student?
+
+  belongs_to :batch, optional: true
 
   private
 
