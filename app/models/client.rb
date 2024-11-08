@@ -1,6 +1,6 @@
 class Client < ApplicationRecord
   has_secure_password
-  after_validation :generate_client_id_number
+  after_create :generate_client_id_number
 
   enum role: { student: 0, teacher: 1 }
   enum status: { active: 0, inactive: 1 }
