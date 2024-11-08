@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "../admin/Homepage/Home";
+import ClientsTable from "../admin/Clients/Index/ClientsTable"
 import Sessions from "../admin/authentication/Sessions";
 import ProtectedRoute from "../admin/authentication/ProtectedRoute";
 
@@ -14,6 +15,14 @@ const AdminRoutes = ({setIsLoggedIn}) => {
           element={
             <ProtectedRoute>
               <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/koda-board/admin/clients"
+          element={
+            <ProtectedRoute>
+              <ClientsTable />
             </ProtectedRoute>
           }
         />

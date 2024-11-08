@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { keyframes } from 'styled-components';
+import MainMenu from "./MainMenu";
 
 const zoomIn = keyframes`
   from {
@@ -12,7 +13,7 @@ const zoomIn = keyframes`
   }
 `;
 
-const Wrapper = styled.div`
+const AnimationWrapper = styled.div`
   animation: ${zoomIn} 1.5s ease-in-out;
 `;
 
@@ -20,9 +21,9 @@ const Home = () => {
   return(
     <div>
       <div>
-        <Wrapper>
-          Home
-        </Wrapper>
+        <AnimationWrapper>
+          <MainMenu />
+        </AnimationWrapper>
       </div>
     </div>
   )
