@@ -6,7 +6,7 @@ module Api
 
         def index
           teachers = Client.teacher.order(:username)
-          students = Client.student.order(:id_number)
+          students = Client.student.includes(:batch).order(:id_number)
 
           render json: {
                         teachers: ClientSerializer.new(teachers).serializable_hash,
