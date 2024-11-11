@@ -26,6 +26,7 @@ const EditClientForm = ({ handleChangeEdit, editClient, selectedTab, id }) => {
           />
         </div>
         {selectedTab === 'students' && (
+          <>
           <div className="mb-2">
             <select
               className="form-select form-select-sm"
@@ -37,8 +38,6 @@ const EditClientForm = ({ handleChangeEdit, editClient, selectedTab, id }) => {
               <option value="inactive">inactive</option>
             </select>
           </div>
-        )}
-        {selectedTab === 'students' && (
           <div className="mb-2">
             <select
               className="form-select form-select-sm"
@@ -56,6 +55,19 @@ const EditClientForm = ({ handleChangeEdit, editClient, selectedTab, id }) => {
               ))}
             </select>
           </div>
+          <div className="form-floating mb-2">
+            <input
+              type="text"
+              className="form-control"
+              name="full_name"
+              id="full_name"
+              placeholder="Full Name"
+              value={editClient.full_name || ""}
+              onChange={handleChangeEdit}
+            />
+            <label htmlFor="first_name">Full Name</label>
+          </div>
+        </>
         )}
         <div className="form-floating mb-2">
           <input

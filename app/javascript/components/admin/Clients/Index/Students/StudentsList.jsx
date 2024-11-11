@@ -23,6 +23,7 @@ const StudentsList = ({ students, setStudents, selectedTab, handleDestroy }) => 
             <td className="px-2">
               <BsCircleFill style={{ color: statusColor, marginLeft: '4px' }} />
             </td>
+            <td className="px-5">{student.attributes.full_name}</td>
             <td className="px-5">{student.attributes.username}</td>
             <td className="px-5">{student.attributes.email}</td>
             <td className="px-5">{student.attributes.batch_name}</td>

@@ -28,6 +28,7 @@ const NewClientForm = ({handleChangeNew, newClient, selectedTab}) => {
         </div>
 
         {selectedTab === 'students' && (
+          <>
             <div className="mb-2">
               <select
                 className="form-select form-select-sm"
@@ -45,6 +46,19 @@ const NewClientForm = ({handleChangeNew, newClient, selectedTab}) => {
                 ))}
               </select>
             </div>
+            <div className="form-floating mb-2">
+              <input
+                type="text"
+                className="form-control"
+                name="full_name"
+                id="full_name"
+                placeholder="Full Name"
+                value={newClient.full_name || ""}
+                onChange={handleChangeNew}
+              />
+              <label htmlFor="first_name">Full Name</label>
+            </div>
+          </>
         )}
         <div className="form-floating mb-2">
           <input

@@ -12,6 +12,7 @@ const StudentsTable = ({students, setStudents, selectedTab, handleDestroy}) => {
             <tr>
               <th scope="col" className="px-5">ID number</th>
               <th scope="col" className="px-2">Status</th>
+              <th scope="col" className="px-5">full name</th>
               <th scope="col" className="px-5">username</th>
               <th scope="col" className="px-5">email</th>
               <th scope="col" className="px-2">Batch</th>

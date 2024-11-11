@@ -4,7 +4,7 @@ module Api
       class ClientSerializer
         include FastJsonapi::ObjectSerializer
 
-        attributes :id, :username, :email, :id_number, :status, :role, :batch_id
+        attributes :id, :full_name, :username, :email, :id_number, :status, :role, :batch_id
 
         attribute :batch_name do |object|
           object.batch&.name

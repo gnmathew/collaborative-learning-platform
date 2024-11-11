@@ -59,7 +59,7 @@ const ClientsTable = () => {
 
     const csrfToken =document.querySelector('[name=csrf-token]').content
     axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
-
+    console.log('This is the newClient:', newClient)
     axios.post('/api/v1/admin/clients', { client: newClient } )
     .then( resp => {
       const clientData = resp.data.data
