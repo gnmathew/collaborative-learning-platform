@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_11_021830) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_12_072920) do
   create_table "admins", charset: "utf8mb4", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
@@ -39,5 +39,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_11_021830) do
     t.index ["batch_id"], name: "index_clients_on_batch_id"
   end
 
+  create_table "materials", charset: "utf8mb4", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.string "url"
+    t.bigint "batch_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["batch_id"], name: "index_materials_on_batch_id"
+  end
+
   add_foreign_key "clients", "batches"
+  add_foreign_key "materials", "batches"
 end
