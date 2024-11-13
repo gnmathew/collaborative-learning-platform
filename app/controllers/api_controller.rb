@@ -15,8 +15,6 @@ class ApiController < ActionController::Base
   def jwt_decode(token)
     decoded = JWT.decode(token, SECRET_KEY)[0]
     HashWithIndifferentAccess.new decoded
-  rescue
-    nil
   end
 
   private
@@ -26,14 +24,15 @@ class ApiController < ActionController::Base
     header = header.split(' ').last if header
     decoded = jwt_decode(header)
 
-    domain = request.domain
-    user = domain == 'admin.com' ? 'Admin' : 'Client'
-    user_id_key = domain == 'admin.com' ? :admin_id : :client_id
-    @current_user = user.constantize.find(decoded[user_id_key]) if decoded
-
+    if decoded && decoded[:exp] > Time.now.to_i
+      domain = request.domain
+      user = domain == 'admin.com' ? 'Admin' : 'Client'
+      user_id_key = domain == 'admin.com' ? :admin_id : :client_id
+      @current_user = user.constantize.find(decoded[user_id_key])
+    else
+      render json: { errors: 'Unauthorized or token expired' }, status: :unauthorized
+    end
   rescue ActiveRecord::RecordNotFound => e
-    render json: { errors: e.message }, status: :unauthorized
-  rescue JWT::DecodeError => e
     render json: { errors: e.message }, status: :unauthorized
   end
 end

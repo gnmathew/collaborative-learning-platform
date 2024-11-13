@@ -5,6 +5,7 @@ import { BsPencilFill } from "react-icons/bs";
 
 const EditClientModal = ({ setTeachers, id, attributes, selectedTab, setStudents }) => {
   const [editClient, setEditClient] = useState({})
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (attributes) {
@@ -24,7 +25,14 @@ const EditClientModal = ({ setTeachers, id, attributes, selectedTab, setStudents
   const handleUpdate = (e) => {
     e.preventDefault()
 
-    axios.put(`/api/v1/admin/clients/${id}`, { client: editClient } )
+    axios.put(`/api/v1/admin/clients/${id}`,
+      { client: editClient },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+     )
     .then( resp => {
       const updatedClient = resp.data.data;
 

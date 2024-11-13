@@ -27,9 +27,14 @@ const ClientsTable = () => {
   const [students, setStudents] = useState([])
   const [newClient, setNewClient] = useState({})
   const [selectedTab, setSelectedTab] = useState('students');
+  const token = localStorage.getItem('token');
 
   useEffect(() =>{
-    axios.get('/api/v1/admin/clients')
+    axios.get('/api/v1/admin/clients', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     .then((resp) => {
       setTeachers(resp.data.teachers.data);
       setStudents(resp.data.students.data);
@@ -59,8 +64,15 @@ const ClientsTable = () => {
 
     const csrfToken =document.querySelector('[name=csrf-token]').content
     axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
-    console.log('This is the newClient:', newClient)
-    axios.post('/api/v1/admin/clients', { client: newClient } )
+
+    axios.post('/api/v1/admin/clients',
+      { client: newClient },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
     .then( resp => {
       const clientData = resp.data.data
 
@@ -82,7 +94,14 @@ const ClientsTable = () => {
 
   const handleDestroy = async (id) => {
     try {
-      await axios.delete(`/api/v1/admin/clients/${id}`);
+      await axios.delete(`/api/v1/admin/clients/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
       if (newClient.role === 'student') {
         setStudents(students.filter((s) => s.id !== id));
       } else {

@@ -3,9 +3,10 @@ import axios from 'axios';
 
 const NewClientForm = ({handleChangeNew, newClient, selectedTab}) => {
   const [batches, setBatches] = useState([]);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    axios.get('/api/v1/admin/batches')
+    axios.get('/api/v1/admin/batches', { headers: { Authorization: `Bearer ${token}`} } )
       .then(resp => {
         setBatches(resp.data.data);
       })

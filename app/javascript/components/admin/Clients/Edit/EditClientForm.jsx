@@ -3,9 +3,10 @@ import axios from 'axios';
 
 const EditClientForm = ({ handleChangeEdit, editClient, selectedTab, id }) => {
   const [batches, setBatches] = useState([]);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    axios.get('/api/v1/admin/batches')
+    axios.get('/api/v1/admin/batches', { headers: { Authorization: `Bearer ${token}` } })
       .then(resp => {
         setBatches(resp.data.data);
       })
@@ -60,12 +61,12 @@ const EditClientForm = ({ handleChangeEdit, editClient, selectedTab, id }) => {
               type="text"
               className="form-control"
               name="full_name"
-              id="full_name"
+              id={`full_name_${id}`}
               placeholder="Full Name"
               value={editClient.full_name || ""}
               onChange={handleChangeEdit}
             />
-            <label htmlFor="first_name">Full Name</label>
+            <label htmlFor={`full_name_${id}`}>Full Name</label>
           </div>
         </>
         )}
