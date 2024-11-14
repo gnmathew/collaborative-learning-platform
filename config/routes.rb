@@ -8,6 +8,7 @@ Rails.application.routes.draw do
           resources :sessions, only: :create
           resources :batches, except: %i[new show edit]
           resources :clients, except: %i[new edit]
+          resources :materials, except: %i[new edit]
         end
       end
     end
