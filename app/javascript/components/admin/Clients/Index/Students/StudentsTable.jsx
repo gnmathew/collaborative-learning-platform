@@ -1,7 +1,7 @@
 import React from 'react'
 import StudentsList from './StudentsList';
 
-const StudentsTable = ({students, setStudents, selectedTab, handleDestroy}) => {
+const StudentsTable = ({ students, selectedTab, handleDestroy, handleSubmit, handleChange, batches, updateClient }) => {
 
   return (
     <>
@@ -21,12 +21,15 @@ const StudentsTable = ({students, setStudents, selectedTab, handleDestroy}) => {
           </thead>
           <tbody>
             <StudentsList
-                students={students}
-                setStudents={setStudents}
-                selectedTab={selectedTab}
-                handleDestroy={handleDestroy}
-              />
-            </tbody>
+              students={students}
+              selectedTab={selectedTab}
+              handleSubmit={handleSubmit}
+              handleChange={handleChange}
+              handleDestroy={handleDestroy}
+              batches={batches}
+              updateClient={updateClient}
+            />
+          </tbody>
         </table>
       </div>
     </>

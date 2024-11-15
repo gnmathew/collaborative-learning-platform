@@ -1,59 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'
 import EditClientForm from './EditClientForm';
 import { BsPencilFill } from "react-icons/bs";
 
-const EditClientModal = ({ setTeachers, id, attributes, selectedTab, setStudents }) => {
-  const [editClient, setEditClient] = useState({})
-  const token = localStorage.getItem('token');
+const EditClientModal = ({ id, attributes, selectedTab, handleChange, batches, updateClient }) => {
+  const [formData, setFormData] = useState({});
 
   useEffect(() => {
     if (attributes) {
-      setEditClient(attributes);
+      setFormData(attributes);
     }
   }, [attributes]);
 
-  const handleChangeEdit = (e) => {
-    e.preventDefault()
 
-    setEditClient((currentClient) => ({
-      ...currentClient,
-      [e.target.name]: e.target.value
-    }))
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleUpdate = (e) => {
-    e.preventDefault()
-
-    axios.put(`/api/v1/admin/clients/${id}`,
-      { client: editClient },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-     )
-    .then( resp => {
-      const updatedClient = resp.data.data;
-
-      if (editClient.role === 'student'){
-        setStudents((currentStudents) =>
-          currentStudents.map((s) =>
-            s.id === updatedClient.id ? { ...s, attributes: { ...updatedClient.attributes } } : s
-          )
-        );
-      } else {
-        setTeachers((currentTeachers) =>
-          currentTeachers.map((t) =>
-            t.id === updatedClient.id ? { ...t, attributes: { ...updatedClient.attributes } } : t
-          )
-        );
-      }
-
-    })
-    .catch( resp => {console.log(resp)})
-  }
-
+    await updateClient(id, formData);
+  };
 
   return(
     <>
@@ -68,15 +31,17 @@ const EditClientModal = ({ setTeachers, id, attributes, selectedTab, setStudents
             </div>
             <div className="modal-body">
               <EditClientForm
-              handleChangeEdit={handleChangeEdit}
-              editClient={editClient}
+              handleChange={handleChange}
               selectedTab={selectedTab}
+              formData={formData}
+              setFormData={setFormData}
+              batches={batches}
               id={id}
               />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="button" onClick={handleUpdate} data-bs-dismiss="modal" className="btn btn-success">Update Changes</button>
+              <button type="submit" onClick={handleSubmit} data-bs-dismiss="modal" className="btn btn-success">Update Changes</button>
             </div>
           </div>
         </div>

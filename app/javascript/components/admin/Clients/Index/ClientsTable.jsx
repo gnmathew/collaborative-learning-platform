@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import styled from 'styled-components'
 import StudentsTable from "./Students/StudentsTable"
 import TeachersTable from './Teachers/TeachersTable'
 import NewClientModal from '../New/NewClientModal'
-import { BsPlusCircleFill } from "react-icons/bs";
+import { BsPlusCircleFill } from "react-icons/bs"
+import { useClients } from '../../../../hooks/useClients'
+import { useBatches } from '../../../../hooks/useBatches'
 
 const MainContainer = styled.div`
   margin-top: 5%;
@@ -23,93 +24,45 @@ const TabBtn = styled.button`
 `
 
 const ClientsTable = () => {
-  const [teachers, setTeachers] = useState([])
-  const [students, setStudents] = useState([])
-  const [newClient, setNewClient] = useState({})
   const [selectedTab, setSelectedTab] = useState('students');
-  const token = localStorage.getItem('token');
-
-  useEffect(() =>{
-    axios.get('/api/v1/admin/clients', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    .then((resp) => {
-      setTeachers(resp.data.teachers.data);
-      setStudents(resp.data.students.data);
-    })
-    .catch( err => console.log(err))
-  }, [])
+  const [formData, setFormData] = useState({})
+  const { batches, setBatches } = useBatches();
+  const {
+    students, setStudents,
+    createClient, teachers,
+    setTeachers, updateClient, deleteClient
+  } = useClients();
 
   useEffect(() => {
-
-    setNewClient((currentClient) => ({
-      ...currentClient,
+    setFormData((prev) => ({
+      ...prev,
       role: selectedTab === 'students' ? 'student' : 'teacher',
     }));
   }, [selectedTab]);
 
-  const handleChangeNew = (e) => {
+  const handleChange = (e, setState) => {
     e.preventDefault()
 
-    setNewClient((currentClient) => ({
-      ...currentClient,
-      [e.target.name]: e.target.value
-    }))
+    setState((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   }
 
-  const submitNewForm = (e) => {
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const csrfToken =document.querySelector('[name=csrf-token]').content
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
+    await createClient(formData);
 
-    axios.post('/api/v1/admin/clients',
-      { client: newClient },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    )
-    .then( resp => {
-      const clientData = resp.data.data
-
-      setNewClient({});
-
-      if (newClient.role === 'student') {
-        setStudents((currentStudents) => [...currentStudents, clientData]);
-      } else {
-        setTeachers((currentTeachers) => [...currentTeachers, clientData]);
-      }
-
-    })
-    .catch( error => {console.error("Error submitting form:", error)})
-  }
-
-  const handleTabChange = (tab) => {
-    setSelectedTab(tab);
+    setFormData({});
   };
 
   const handleDestroy = async (id) => {
-    try {
-      await axios.delete(`/api/v1/admin/clients/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
+    await deleteClient(id, formData);
+  };
 
-      if (newClient.role === 'student') {
-        setStudents(students.filter((s) => s.id !== id));
-      } else {
-        setTeachers(teachers.filter((t) => t.id !== id));
-      }
-    } catch (error) {
-      console.error("Error deleting the post:", error);
-    }
+  const handleTabChange = (tab) => {
+    setSelectedTab(tab);
   }
 
   return(
@@ -153,6 +106,9 @@ const ClientsTable = () => {
               students={students}
               setStudents={setStudents}
               selectedTab={selectedTab}
+              handleChange={handleChange}
+              batches={batches}
+              updateClient={updateClient}
               handleDestroy={handleDestroy}
               />
             )}
@@ -161,6 +117,9 @@ const ClientsTable = () => {
                 teachers={teachers}
                 setTeachers={setTeachers}
                 selectedTab={selectedTab}
+                handleChange={handleChange}
+                batches={batches}
+                updateClient={updateClient}
                 handleDestroy={handleDestroy}
               />
             )}
@@ -168,10 +127,12 @@ const ClientsTable = () => {
         </div>
         <div>
           <NewClientModal
-          handleChangeNew={handleChangeNew}
-          submitNewForm={submitNewForm}
-          newClient={newClient}
+          handleChange={handleChange}
+          setFormData={setFormData}
+          formData={formData}
+          handleSubmit={handleSubmit}
           selectedTab={selectedTab}
+          batches={batches}
           />
         </div>
       </MainContainer>

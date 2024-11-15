@@ -2,7 +2,7 @@ import React from "react";
 import DeleteClientModal from "../../DeleteClientModal"
 import EditClientModal from "../../Edit/EditClientModal";
 
-const TeachersList = ({ teachers, setTeachers, selectedTab, handleDestroy }) => {
+const TeachersList = ({ teachers, selectedTab, handleChange, handleDestroy, batches, updateClient }) => {
 
   if (teachers.length === 0) {
     return (
@@ -25,7 +25,9 @@ const TeachersList = ({ teachers, setTeachers, selectedTab, handleDestroy }) => 
               <EditClientModal
                 {...teacher}
                 selectedTab={selectedTab}
-                setTeachers={setTeachers}
+                handleChange={handleChange}
+                batches={batches}
+                updateClient={updateClient}
               />
               <DeleteClientModal
                 {...teacher}

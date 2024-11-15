@@ -1,19 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 
-const EditClientForm = ({ handleChangeEdit, editClient, selectedTab, id }) => {
-  const [batches, setBatches] = useState([]);
-  const token = localStorage.getItem('token');
-
-  useEffect(() => {
-    axios.get('/api/v1/admin/batches', { headers: { Authorization: `Bearer ${token}` } })
-      .then(resp => {
-        setBatches(resp.data.data);
-      })
-      .catch(error => {
-        console.error("Error fetching batches:", error);
-      });
-  }, []);
+const EditClientForm = ({ handleChange, selectedTab, id, batches, formData, setFormData }) => {
 
   return (
     <>
@@ -22,7 +9,7 @@ const EditClientForm = ({ handleChangeEdit, editClient, selectedTab, id }) => {
           <input
             type="text"
             className="form-control form-control-sm"
-            value={editClient.role || ""}
+            value={formData.role || ""}
             disabled
           />
         </div>
@@ -31,9 +18,10 @@ const EditClientForm = ({ handleChangeEdit, editClient, selectedTab, id }) => {
           <div className="mb-2">
             <select
               className="form-select form-select-sm"
-              value={editClient.status || ""}
+              value={formData.status || ""}
               name="status"
-              onChange={handleChangeEdit}
+              required
+              onChange={(e) => handleChange(e, setFormData)}
             >
               <option value="active">active</option>
               <option value="inactive">inactive</option>
@@ -42,9 +30,9 @@ const EditClientForm = ({ handleChangeEdit, editClient, selectedTab, id }) => {
           <div className="mb-2">
             <select
               className="form-select form-select-sm"
-              value={editClient.batch_id || ""}
+              value={formData.batch_id || ""}
               name="batch_id"
-              onChange={handleChangeEdit}
+              onChange={(e) => handleChange(e, setFormData)}
             >
               <option value="" disabled hidden>
                 Select a Batch
@@ -63,8 +51,8 @@ const EditClientForm = ({ handleChangeEdit, editClient, selectedTab, id }) => {
               name="full_name"
               id={`full_name_${id}`}
               placeholder="Full Name"
-              value={editClient.full_name || ""}
-              onChange={handleChangeEdit}
+              value={formData.full_name || ""}
+              onChange={(e) => handleChange(e, setFormData)}
             />
             <label htmlFor={`full_name_${id}`}>Full Name</label>
           </div>
@@ -77,8 +65,8 @@ const EditClientForm = ({ handleChangeEdit, editClient, selectedTab, id }) => {
             name="username"
             id={`username-${id}`}
             placeholder="username"
-            value={editClient.username || ""}
-            onChange={handleChangeEdit}
+            value={formData.username || ""}
+            onChange={(e) => handleChange(e, setFormData)}
           />
           <label htmlFor={`username-${id}`}>username</label>
         </div>
@@ -89,8 +77,8 @@ const EditClientForm = ({ handleChangeEdit, editClient, selectedTab, id }) => {
             name="email"
             id={`email-${id}`}
             placeholder="email"
-            value={editClient.email || ""}
-            onChange={handleChangeEdit}
+            value={formData.email || ""}
+            onChange={(e) => handleChange(e, setFormData)}
           />
           <label htmlFor={`email-${id}`}>email</label>
         </div>

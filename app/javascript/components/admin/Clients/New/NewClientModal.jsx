@@ -1,7 +1,7 @@
 import React from 'react'
 import NewClientForm from './NewClientForm';
 
-const ClientModalForm = ({handleChangeNew, submitNewForm, newClient, selectedTab}) => {
+const ClientModalForm = ({handleChange, selectedTab, batches, formData, setFormData, handleSubmit}) => {
 
   return (
     <>
@@ -12,16 +12,18 @@ const ClientModalForm = ({handleChangeNew, submitNewForm, newClient, selectedTab
               <h1 className="modal-title fs-5" id="exampleModalLabel">Create New User</h1>
               <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-              <div className="modal-body">
-                <NewClientForm
-                handleChangeNew={handleChangeNew}
-                newClient={newClient}
-                selectedTab={selectedTab}
-                />
-              </div>
+            <div className="modal-body">
+              <NewClientForm
+              handleChange={handleChange}
+              selectedTab={selectedTab}
+              batches={batches}
+              setFormData={setFormData}
+              formData={formData}
+              />
+            </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="button" onClick={submitNewForm} data-bs-dismiss="modal" className="btn btn-success">Save User</button>
+              <button type="submit" onClick={handleSubmit} data-bs-dismiss="modal" className="btn btn-success">Save User</button>
             </div>
           </div>
         </div>

@@ -1,20 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 
-const NewClientForm = ({handleChangeNew, newClient, selectedTab}) => {
-  const [batches, setBatches] = useState([]);
-  const token = localStorage.getItem('token');
-
-  useEffect(() => {
-    axios.get('/api/v1/admin/batches', { headers: { Authorization: `Bearer ${token}`} } )
-      .then(resp => {
-        setBatches(resp.data.data);
-      })
-      .catch(error => {
-        console.error("Error fetching batches:", error);
-      });
-  }, []);
-
+const NewClientForm = ({handleChange, selectedTab, batches, formData, setFormData}) => {
 
   return (
     <>
@@ -23,7 +9,7 @@ const NewClientForm = ({handleChangeNew, newClient, selectedTab}) => {
           <input
             type="text"
             className="form-control form-control-sm"
-            value={newClient.role || ""}
+            value={formData.role || ""}
             disabled
           />
         </div>
@@ -33,9 +19,10 @@ const NewClientForm = ({handleChangeNew, newClient, selectedTab}) => {
             <div className="mb-2">
               <select
                 className="form-select form-select-sm"
-                value={newClient.batch_id || ""}
+                value={formData.batch_id || ""}
                 name="batch_id"
-                onChange={handleChangeNew}
+                required
+                onChange={(e) => handleChange(e, setFormData)}
               >
                 <option value="" disabled hidden>
                   Select a Batch
@@ -54,8 +41,9 @@ const NewClientForm = ({handleChangeNew, newClient, selectedTab}) => {
                 name="full_name"
                 id="full_name"
                 placeholder="Full Name"
-                value={newClient.full_name || ""}
-                onChange={handleChangeNew}
+                value={formData.full_name || ""}
+                required
+                onChange={(e) => handleChange(e, setFormData)}
               />
               <label htmlFor="first_name">Full Name</label>
             </div>
@@ -68,8 +56,9 @@ const NewClientForm = ({handleChangeNew, newClient, selectedTab}) => {
             name="username"
             id="username"
             placeholder="username"
-            value={newClient.username || ""}
-            onChange={handleChangeNew}
+            value={formData.username || ""}
+            required
+            onChange={(e) => handleChange(e, setFormData)}
           />
           <label htmlFor="username">username</label>
         </div>
@@ -80,8 +69,9 @@ const NewClientForm = ({handleChangeNew, newClient, selectedTab}) => {
             name="email"
             id="email"
             placeholder="email"
-            value={newClient.email || ""}
-            onChange={handleChangeNew}
+            value={formData.email || ""}
+            required
+            onChange={(e) => handleChange(e, setFormData)}
           />
           <label htmlFor="email">email</label>
         </div>
@@ -92,8 +82,9 @@ const NewClientForm = ({handleChangeNew, newClient, selectedTab}) => {
             name="password"
             id="password"
             placeholder="Enter your password"
-            value={newClient.password || ""}
-            onChange={handleChangeNew}
+            value={formData.password || ""}
+            required
+            onChange={(e) => handleChange(e, setFormData)}
           />
           <label htmlFor="password">password</label>
         </div>

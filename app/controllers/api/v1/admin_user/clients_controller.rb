@@ -47,7 +47,7 @@ module Api
         private
 
         def client_params
-          params.require(:client).permit(:full_name, :username, :email, :password, :role, :status, :batch_id)
+          params.require(:client).permit(:full_name, :username, :email, :password, :role, :status, :batch_id, :id_number)
         end
 
         def set_client
