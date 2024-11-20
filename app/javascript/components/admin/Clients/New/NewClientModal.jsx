@@ -1,7 +1,7 @@
 import React from 'react'
 import NewClientForm from './NewClientForm';
 
-const ClientModalForm = ({handleChange, selectedTab, batches, formData, setFormData, handleSubmit}) => {
+const NewClientModal = ({handleChange, selectedTab, batches, formData, setFormData, handleSubmit, errors}) => {
 
   return (
     <>
@@ -14,22 +14,26 @@ const ClientModalForm = ({handleChange, selectedTab, batches, formData, setFormD
             </div>
             <div className="modal-body">
               <NewClientForm
-              handleChange={handleChange}
-              selectedTab={selectedTab}
-              batches={batches}
-              setFormData={setFormData}
-              formData={formData}
+                handleChange={handleChange}
+                selectedTab={selectedTab}
+                batches={batches}
+                setFormData={setFormData}
+                formData={formData}
+                errors={errors}
               />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="submit" onClick={handleSubmit} data-bs-dismiss="modal" className="btn btn-success">Save User</button>
+              <button type="submit" onClick={handleSubmit} className="btn btn-success">
+                Save User
+              </button>
             </div>
           </div>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default ClientModalForm;
+
+export default NewClientModal;

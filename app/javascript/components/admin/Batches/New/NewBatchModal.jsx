@@ -1,7 +1,7 @@
 import React from 'react'
 import NewBatchForm from './NewBatchForm';
 
-const NewBatchModal = ({formData, setFormData, handleSubmit, handleChange}) => {
+const NewBatchModal = ({ formData, setFormData, handleSubmit, handleChange, errors }) => {
 
   return (
     <>
@@ -9,7 +9,7 @@ const NewBatchModal = ({formData, setFormData, handleSubmit, handleChange}) => {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header bg-dark text-light">
-              <h1 className="modal-title fs-5" id="exampleModalLabel">Create New User</h1>
+              <h1 className="modal-title fs-5" id="exampleModalLabel">Create Batch</h1>
               <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -17,11 +17,12 @@ const NewBatchModal = ({formData, setFormData, handleSubmit, handleChange}) => {
                 formData={formData}
                 setFormData={setFormData}
                 handleChange={handleChange}
+                errors={errors}
               />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="submit" onClick={handleSubmit} data-bs-dismiss="modal" className="btn btn-success">Save Batch</button>
+              <button type="submit" onClick={handleSubmit} className="btn btn-success">Save Batch</button>
             </div>
           </div>
         </div>

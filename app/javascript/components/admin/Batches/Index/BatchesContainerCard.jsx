@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useBatches } from '../../../../hooks/useBatches';
 import NewBatchModal from '../New/NewBatchModal';
 import BatchTable from './BatchTable';
 import styled from 'styled-components'
 import { BsPlusCircleFill } from "react-icons/bs"
+import { closeModal } from '../../../../utils/modalUtils';
 
 const MainContainer = styled.div`
   margin-top: 14%;
@@ -16,16 +17,19 @@ const MainContainer = styled.div`
 const BatchesContainerCard = () => {
   const {
     batches, setBatches, createBatch,
-    updateBatch, deleteBatch
+    updateBatch, deleteBatch, errors, setErrors
   } = useBatches();
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({name: ""});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await createBatch(formData)
+    const isSuccess = await createBatch(formData)
 
-    setFormData({});
+    if (isSuccess) {
+      setFormData({});
+      closeModal();
+    }
   }
 
   const handleChange = (e, setState) => {
@@ -53,6 +57,7 @@ const BatchesContainerCard = () => {
             <li className="nav-item ms-auto">
               <button
                 type="button"
+                onClick={() => setErrors({})}
                 className="btn btn-success btn-sm"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
@@ -70,6 +75,8 @@ const BatchesContainerCard = () => {
             handleChange={handleChange}
             updateBatch={updateBatch}
             handleDestroy={handleDestroy}
+            errors={errors}
+            setErrrors={setErrors}
           />
         </div>
       </div>
@@ -79,6 +86,7 @@ const BatchesContainerCard = () => {
           setFormData={setFormData}
           handleSubmit={handleSubmit}
           handleChange={handleChange}
+          errors={errors}
         />
       </div>
     </MainContainer>

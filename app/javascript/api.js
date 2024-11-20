@@ -6,6 +6,7 @@ const createApiInstance = (baseURL, token) => {
     headers: {
       Authorization: `Bearer ${token}`,
     },
+    validateStatus: (status) => status >= 200 && status < 500
   });
 };
 

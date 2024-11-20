@@ -6,6 +6,7 @@ import NewClientModal from '../New/NewClientModal'
 import { BsPlusCircleFill } from "react-icons/bs"
 import { useClients } from '../../../../hooks/useClients'
 import { useBatches } from '../../../../hooks/useBatches'
+import { closeModal } from '../../../../utils/modalUtils'
 
 const MainContainer = styled.div`
   margin-top: 5%;
@@ -30,7 +31,8 @@ const ClientsTable = () => {
   const {
     students, setStudents,
     createClient, teachers,
-    setTeachers, updateClient, deleteClient
+    setTeachers, updateClient,
+    deleteClient, errors, setErrors
   } = useClients();
 
   useEffect(() => {
@@ -38,6 +40,7 @@ const ClientsTable = () => {
       ...prev,
       role: selectedTab === 'students' ? 'student' : 'teacher',
     }));
+    setErrors({});
   }, [selectedTab]);
 
   const handleChange = (e, setState) => {
@@ -47,14 +50,17 @@ const ClientsTable = () => {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await createClient(formData);
+    const isSuccess = await createClient(formData);
 
-    setFormData({});
+    if (isSuccess) {
+      setFormData({role: formData.role });
+      closeModal();
+    }
   };
 
   const handleDestroy = async (id) => {
@@ -91,6 +97,7 @@ const ClientsTable = () => {
                 <button
                   type="button"
                   className="btn btn-success btn-sm"
+                  onClick={() => setErrors({})}
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
                 >
@@ -110,6 +117,8 @@ const ClientsTable = () => {
               batches={batches}
               updateClient={updateClient}
               handleDestroy={handleDestroy}
+              errors={errors}
+              setErrors={setErrors}
               />
             )}
             {selectedTab === 'teachers' && (
@@ -121,6 +130,8 @@ const ClientsTable = () => {
                 batches={batches}
                 updateClient={updateClient}
                 handleDestroy={handleDestroy}
+                errors={errors}
+                setErrors={setErrors}
               />
             )}
           </div>
@@ -133,6 +144,7 @@ const ClientsTable = () => {
           handleSubmit={handleSubmit}
           selectedTab={selectedTab}
           batches={batches}
+          errors={errors}
           />
         </div>
       </MainContainer>

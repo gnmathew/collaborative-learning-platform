@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react'
 import { getAdminApi } from '../api'
+import toast from "react-hot-toast";
 
 export const useBatches = () => {
   const [batches, setBatches] = useState([]);
+  const errorFields = ['name'];
+  const [errors, setErrors] = useState({});
   const token = localStorage.getItem('token');
   const adminApiUrl = getAdminApi(token);
 
@@ -16,33 +19,86 @@ export const useBatches = () => {
   };
 
   const createBatch = async (batch) => {
+    console.log('this is the batch',  batch)
     try {
-      const resp = await adminApiUrl.post('/batches', {batch: batch});
-      const batchData = resp.data.data;
-      setBatches((prev) => [ ...prev, batchData ]);
+      const resp = await adminApiUrl.post('/batches', {batch: batch });
+      const batchData = resp.data.batch;
+      console.log('the response:', resp);
+
+      if (resp.data.status === 200) {
+        setBatches((prev) => [ ...prev, batchData ]);
+        toast.success('Batch created successfully!');
+        setErrors({});
+
+        return true;
+
+      } else {
+        const formErrors = {};
+
+        errorFields.forEach((field) => {
+          if (resp.data.error[field]?.[0]) {
+            formErrors[field] = resp.data.error[field][0];
+          }
+        });
+        setErrors(formErrors);
+        toast.error('Error: Form could not be submitted');
+
+        return false;
+      }
     } catch (error) {
-      console.log(error)
+      toast.error(error.message || 'An unexpected error occurred.');
+
+      return false;
     }
   };
 
   const updateBatch = async (id, updatedBatch) => {
     try{
-      await adminApiUrl.put(`/batches/${id}`, { batch: updatedBatch } );
-      setBatches((prev) =>
-        prev.map((c) =>
-        (c.id === id ? { ...c, attributes: { ...updatedBatch } } : c )
-      ));
+      const resp = await adminApiUrl.put(`/batches/${id}`, { batch: updatedBatch } );
+
+      if (resp.data.status === 200) {
+        setBatches((prev) =>
+          prev.map((c) =>
+          (c.id === id ? { ...c, attributes: { ...updatedBatch } } : c )
+        ));
+        toast.success('Batch updated successfully');
+        setErrors({});
+
+        return true;
+
+      } else {
+        const formErrors = {};
+
+        errorFields.forEach((field) => {
+          if (resp.data.error[field]?.[0]) {
+            formErrors[field] = resp.data.error[field][0];
+          }
+        });
+        setErrors(formErrors);
+        toast.error('Error: Failed to update form');
+
+        return false;
+      }
     } catch (error) {
-      console.log(error)
+      console.log('this is the error!', error);
+      toast.error(error.message || 'An unexpected error occurred.');
+
+      return false;
     }
   }
 
   const deleteBatch = async (id) => {
     try {
-      const response = await adminApiUrl.delete(`/batches/${id}`);
-      setBatches((prev) => prev.filter((b) => b.id !== id));
+      const resp = await adminApiUrl.delete(`/batches/${id}`);
+
+      if (resp.data.status === 200) {
+        setBatches((prev) => prev.filter((b) => b.id !== id));
+        toast.success(resp.data.message);
+      } else {
+        toast.error(resp.data.error[0]);
+      }
     } catch (error) {
-      console.log(error)
+      toast.error(error.message || 'An unexpected error occurred.');
     }
   };
 
@@ -52,6 +108,6 @@ export const useBatches = () => {
 
   return {
     batches, setBatches, createBatch,
-    updateBatch, deleteBatch
-  }
-}
+    updateBatch, deleteBatch, errors, setErrors
+  };
+};

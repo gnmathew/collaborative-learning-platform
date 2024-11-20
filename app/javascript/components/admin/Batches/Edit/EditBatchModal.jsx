@@ -1,27 +1,27 @@
 import React, {useEffect, useState} from 'react'
 import EditBatchForm from './EditBatchForm'
 import { BsPencilFill } from 'react-icons/bs'
+import { closeModal } from '../../../../utils/modalUtils'
 
-const EditBatchModal = ({id, attributes, handleChange, updateBatch}) => {
+const EditBatchModal = ({id, attributes, handleChange, updateBatch, errors, setErrors}) => {
   const [formData, setFormData] = useState({});
 
   useEffect(() => {
-    if (attributes) {
-      setFormData(attributes);
-    }
+    if (attributes) {setFormData(attributes)}
   }, [attributes]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await updateBatch(id, formData);
+    const isSuccess = await updateBatch(id, formData);
+    isSuccess ? closeModal(id) : setFormData(attributes);
   };
 
   return (
     <>
-      <BsPencilFill className="me-4" type="button" data-bs-toggle="modal" data-bs-target={`#editModalBatch-${id}`}/>
+      <BsPencilFill className="me-4" onClick={() => setErrors({})} type="button" data-bs-toggle="modal" data-bs-target={`#exampleModal-${id}`}/>
 
-      <div className="modal fade" id={`editModalBatch-${id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id={`exampleModal-${id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header bg-dark text-light">
@@ -34,11 +34,12 @@ const EditBatchModal = ({id, attributes, handleChange, updateBatch}) => {
               formData={formData}
               setFormData={setFormData}
               id={id}
+              errors={errors}
               />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="submit" onClick={handleSubmit} data-bs-dismiss="modal" className="btn btn-success">Update Changes</button>
+              <button type="submit" onClick={handleSubmit} className="btn btn-success">Update Changes</button>
             </div>
           </div>
         </div>

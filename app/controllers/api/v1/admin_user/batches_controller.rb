@@ -14,26 +14,26 @@ module Api
           batch = Batch.new(batch_params)
 
           if batch.save
-            render json: BatchSerializer.new(batch).serializable_hash, status: :ok
+            render json: { batch: BatchSerializer.new(batch).serializable_hash[:data], status: 200 }, status: :ok
           else
-            render json: { error: batch.errors.messages }, status: 422
+            render json: { error: batch.errors.messages, status: 422 }, status: 422
           end
         end
 
         def update
           if @batch.update(batch_params)
-            render json: BatchSerializer.new(@batch).serializable_hash, status: :ok
+            render json: { batch: BatchSerializer.new(@batch).serializable_hash[:data], status: 200 }, status: :ok
           else
-            render json: { error: @batch.errors.messages }, status: 422
+            render json: { error: @batch.errors.messages, status: 422 }, status: 422
           end
 
         end
 
         def destroy
           if @batch.destroy
-            head :no_content
+            render json: { message: 'Batch successfully deleted.', status: 200 }, status: :ok
           else
-            render json: { error: @batch.errors.messages }, status: 422
+            render json: { error: @batch.errors.full_messages, status: 422 }, status: 422
           end
         end
 

@@ -2,7 +2,7 @@ import React from 'react'
 import EditBatchModal from '../Edit/EditBatchModal'
 import DeleteBatchModal from '../DeleteBatchModal'
 
-const BatchLists = ({ batches, setBatches, handleChange, updateBatch, handleDestroy }) => {
+const BatchLists = ({ batches, setBatches, handleChange, updateBatch, handleDestroy, errors, setErrors }) => {
 
   if (batches.length === 0) {
     return (
@@ -25,6 +25,8 @@ const BatchLists = ({ batches, setBatches, handleChange, updateBatch, handleDest
                 setBatches={setBatches}
                 handleChange={handleChange}
                 updateBatch={updateBatch}
+                errors={errors}
+                setErrors={setErrors}
               />
               <DeleteBatchModal
                 {...batch}

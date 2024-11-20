@@ -1,7 +1,7 @@
 import React from 'react'
 import StudentsList from './StudentsList';
 
-const StudentsTable = ({ students, selectedTab, handleDestroy, handleSubmit, handleChange, batches, updateClient }) => {
+const StudentsTable = ({ students, selectedTab, handleDestroy, handleSubmit, handleChange, batches, updateClient, errors, setErrors }) => {
 
   return (
     <>
@@ -28,6 +28,8 @@ const StudentsTable = ({ students, selectedTab, handleDestroy, handleSubmit, han
               handleDestroy={handleDestroy}
               batches={batches}
               updateClient={updateClient}
+              errors={errors}
+              setErrors={setErrors}
             />
           </tbody>
         </table>

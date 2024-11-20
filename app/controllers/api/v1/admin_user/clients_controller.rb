@@ -15,22 +15,22 @@ module Api
         end
 
         def show
-          render json: ClientSerializer.new(@client).serializable_hash, status: :ok
+          render json: { client: ClientSerializer.new(@client).serializable_hash[:data], status: 200 }, status: :ok
         end
 
         def create
           client = Client.new(client_params)
 
           if client.save
-            render json: ClientSerializer.new(client).serializable_hash, status: :ok
+            render json: { client: ClientSerializer.new(client).serializable_hash[:data], status: 200 }, status: :ok
           else
-            render json: { error: client.errors.messages }, status: 422
+            render json: { error: client.errors.messages, status: 422 }, status: 422
           end
         end
 
         def update
           if @client.update(client_params)
-            render json: ClientSerializer.new(@client).serializable_hash, status: :ok
+            render json: { client: ClientSerializer.new(@client).serializable_hash[:data], status: 200 }, status: :ok
           else
             render json: { error: @client.errors.messages }, status: 422
           end
@@ -38,9 +38,9 @@ module Api
 
         def destroy
           if @client.destroy
-            head :no_content
+            render json: { message: 'User successfully deleted.', status: 200 }, status: :ok
           else
-            render json: { error: @client.errors.messages }, status: 422
+            render json: { error: @client.errors.messages, status: 422 }, status: 422
           end
         end
 

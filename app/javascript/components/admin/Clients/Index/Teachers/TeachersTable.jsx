@@ -1,7 +1,7 @@
 import React from 'react'
 import TeachersList from './TeachersList'
 
-const TeachersTable = ({ teachers, setTeachers, selectedTab, handleChange, updateClient, handleDestroy, batches }) => {
+const TeachersTable = ({ teachers, setTeachers, selectedTab, handleChange, updateClient, handleDestroy, batches,  errors, setErrors }) => {
 
   return (
     <div>
@@ -24,6 +24,8 @@ const TeachersTable = ({ teachers, setTeachers, selectedTab, handleChange, updat
             updateClient={updateClient}
             handleDestroy={handleDestroy}
             batches={batches}
+            errors={errors}
+            setErrors={setErrors}
           />
         </tbody>
       </table>
