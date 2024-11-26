@@ -1,7 +1,7 @@
 import React from 'react'
 import NewBatchForm from './NewBatchForm';
 
-const NewBatchModal = ({ formData, setFormData, handleSubmit, handleChange, errors }) => {
+const NewBatchModal = ({ formData, setFormData, handleSubmit, handleChange }) => {
 
   return (
     <>
@@ -17,7 +17,6 @@ const NewBatchModal = ({ formData, setFormData, handleSubmit, handleChange, erro
                 formData={formData}
                 setFormData={setFormData}
                 handleChange={handleChange}
-                errors={errors}
               />
             </div>
             <div className="modal-footer">

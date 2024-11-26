@@ -2,20 +2,21 @@ import React, { useState, useEffect } from 'react';
 import EditClientForm from './EditClientForm';
 import { BsPencilFill } from "react-icons/bs";
 import { closeModal } from '../../../../utils/modalUtils';
+import { useClientsContext } from '../ClientsContext';
+import { useBatches } from '../../../../hooks/useBatches';
 
-const EditClientModal = ({ id, attributes, selectedTab, handleChange, batches, updateClient, errors, setErrors }) => {
+const EditClientModal = ({ id, attributes, selectedTab, handleChange }) => {
   const [formData, setFormData] = useState({});
-  const [batchName, setBatchName] = useState();
-
-  useEffect(() => {
-    if (attributes) {setFormData(attributes)};
-  }, [attributes]);
+  const [batchName, setBatchName] = useState(attributes.batch_name);
+  const { batches } = useBatches();
+  const { updateClient, errors, setErrors } = useClientsContext();
 
   useEffect(() => {
     const selectedBatch = batches.find((batch) => batch.id === formData.batch_id);
 
-    if(selectedBatch) {setBatchName(selectedBatch.attributes.name)}
-  }, [formData.batch_id]);
+    if (selectedBatch) {setBatchName(selectedBatch.attributes.name)}
+    if (attributes) {setFormData(attributes)};
+  }, [attributes, formData.batch_id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,9 +42,9 @@ const EditClientModal = ({ id, attributes, selectedTab, handleChange, batches, u
               selectedTab={selectedTab}
               formData={formData}
               setFormData={setFormData}
-              batches={batches}
               id={id}
               errors={errors}
+              batches={batches}
               />
             </div>
             <div className="modal-footer">

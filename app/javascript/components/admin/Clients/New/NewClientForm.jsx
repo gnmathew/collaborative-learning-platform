@@ -1,6 +1,11 @@
 import React from 'react';
+import { useBatches } from '../../../../hooks/useBatches';
+import { useClientsContext } from '../ClientsContext';
 
-const NewClientForm = ({ handleChange, selectedTab, batches, formData, setFormData, errors }) => {
+const NewClientForm = ({ handleChange, selectedTab, formData, setFormData }) => {
+  const { batches } = useBatches();
+  const { errors } = useClientsContext();
+
   return (
     <>
       <form>

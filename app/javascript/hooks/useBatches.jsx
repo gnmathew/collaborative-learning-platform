@@ -19,11 +19,9 @@ export const useBatches = () => {
   };
 
   const createBatch = async (batch) => {
-    console.log('this is the batch',  batch)
     try {
       const resp = await adminApiUrl.post('/batches', {batch: batch });
       const batchData = resp.data.batch;
-      console.log('the response:', resp);
 
       if (resp.data.status === 200) {
         setBatches((prev) => [ ...prev, batchData ]);

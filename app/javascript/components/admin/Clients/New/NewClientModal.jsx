@@ -1,7 +1,7 @@
 import React from 'react'
 import NewClientForm from './NewClientForm';
 
-const NewClientModal = ({handleChange, selectedTab, batches, formData, setFormData, handleSubmit, errors}) => {
+const NewClientModal = ({handleChange, selectedTab, formData, setFormData, handleSubmit}) => {
 
   return (
     <>
@@ -16,10 +16,8 @@ const NewClientModal = ({handleChange, selectedTab, batches, formData, setFormDa
               <NewClientForm
                 handleChange={handleChange}
                 selectedTab={selectedTab}
-                batches={batches}
                 setFormData={setFormData}
                 formData={formData}
-                errors={errors}
               />
             </div>
             <div className="modal-footer">

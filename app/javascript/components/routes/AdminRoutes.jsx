@@ -5,6 +5,8 @@ import ClientsTable from "../admin/Clients/Index/ClientsTable"
 import Sessions from "../admin/authentication/Sessions";
 import ProtectedRoute from "../admin/authentication/ProtectedRoute";
 import BatchesContainerCard from "../admin/Batches/Index/BatchesContainerCard";
+import { BatchesProvider } from "../admin/Batches/BatchesContext";
+import { ClientsProvider } from "../admin/Clients/ClientsContext";
 
 const AdminRoutes = ({setIsLoggedIn}) => {
     return (
@@ -23,7 +25,9 @@ const AdminRoutes = ({setIsLoggedIn}) => {
           path="/koda-board/admin/clients"
           element={
             <ProtectedRoute>
-              <ClientsTable />
+              <ClientsProvider>
+                <ClientsTable />
+              </ClientsProvider>
             </ProtectedRoute>
           }
         />
@@ -31,7 +35,9 @@ const AdminRoutes = ({setIsLoggedIn}) => {
           path="/koda-board/admin/batches"
           element={
             <ProtectedRoute>
-              <BatchesContainerCard />
+              <BatchesProvider>
+                <BatchesContainerCard />
+              </BatchesProvider>
             </ProtectedRoute>
           }
         />

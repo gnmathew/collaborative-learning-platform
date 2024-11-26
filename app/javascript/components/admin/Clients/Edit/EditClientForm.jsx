@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EditClientForm = ({ handleChange, selectedTab, id, batches, formData, setFormData, errors }) => {
+const EditClientForm = ({ handleChange, selectedTab, id, formData, setFormData, errors, batches }) => {
 
   return (
     <>

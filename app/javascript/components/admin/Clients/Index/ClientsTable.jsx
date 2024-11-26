@@ -4,9 +4,8 @@ import StudentsTable from "./Students/StudentsTable"
 import TeachersTable from './Teachers/TeachersTable'
 import NewClientModal from '../New/NewClientModal'
 import { BsPlusCircleFill } from "react-icons/bs"
-import { useClients } from '../../../../hooks/useClients'
-import { useBatches } from '../../../../hooks/useBatches'
 import { closeModal } from '../../../../utils/modalUtils'
+import { useClientsContext } from '../ClientsContext'
 
 const MainContainer = styled.div`
   margin-top: 5%;
@@ -27,13 +26,7 @@ const TabBtn = styled.button`
 const ClientsTable = () => {
   const [selectedTab, setSelectedTab] = useState('students');
   const [formData, setFormData] = useState({})
-  const { batches, setBatches } = useBatches();
-  const {
-    students, setStudents,
-    createClient, teachers,
-    setTeachers, updateClient,
-    deleteClient, errors, setErrors
-  } = useClients();
+  const { createClient, deleteClient, setErrors } = useClientsContext();
 
   useEffect(() => {
     setFormData((prev) => ({
@@ -110,28 +103,16 @@ const ClientsTable = () => {
           <div className="card-body">
             {selectedTab === 'students' && (
               <StudentsTable
-              students={students}
-              setStudents={setStudents}
               selectedTab={selectedTab}
               handleChange={handleChange}
-              batches={batches}
-              updateClient={updateClient}
               handleDestroy={handleDestroy}
-              errors={errors}
-              setErrors={setErrors}
               />
             )}
             {selectedTab === 'teachers' && (
               <TeachersTable
-                teachers={teachers}
-                setTeachers={setTeachers}
                 selectedTab={selectedTab}
                 handleChange={handleChange}
-                batches={batches}
-                updateClient={updateClient}
                 handleDestroy={handleDestroy}
-                errors={errors}
-                setErrors={setErrors}
               />
             )}
           </div>
@@ -143,8 +124,6 @@ const ClientsTable = () => {
           formData={formData}
           handleSubmit={handleSubmit}
           selectedTab={selectedTab}
-          batches={batches}
-          errors={errors}
           />
         </div>
       </MainContainer>

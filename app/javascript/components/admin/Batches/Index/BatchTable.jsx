@@ -1,8 +1,7 @@
 import React from 'react'
 import BatchLists from './BatchLists';
 
-const BatchTable = ({ batches, setBatches, handleChange, updateBatch, handleDestroy, errors, setErrors }) => {
-
+const BatchTable = ({ handleChange, handleDestroy }) => {
 
   return (
     <>
@@ -16,13 +15,8 @@ const BatchTable = ({ batches, setBatches, handleChange, updateBatch, handleDest
       </thead>
       <tbody>
         <BatchLists
-          batches={batches}
-          setBatches={setBatches}
           handleChange={handleChange}
-          updateBatch={updateBatch}
           handleDestroy={handleDestroy}
-          errors={errors}
-          setErrors={setErrors}
         />
       </tbody>
     </table>

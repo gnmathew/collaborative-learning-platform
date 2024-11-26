@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useBatches } from '../../../../hooks/useBatches';
+import React, { useState } from 'react';
+import { useBatchesContext } from '../BatchesContext'
 import NewBatchModal from '../New/NewBatchModal';
 import BatchTable from './BatchTable';
 import styled from 'styled-components'
@@ -15,10 +15,7 @@ const MainContainer = styled.div`
 `
 
 const BatchesContainerCard = () => {
-  const {
-    batches, setBatches, createBatch,
-    updateBatch, deleteBatch, errors, setErrors
-  } = useBatches();
+  const { createBatch, deleteBatch, setErrors } = useBatchesContext();
   const [formData, setFormData] = useState({name: ""});
 
   const handleSubmit = async (e) => {
@@ -70,13 +67,8 @@ const BatchesContainerCard = () => {
         </div>
         <div className="card-body">
           <BatchTable
-            batches={batches}
-            setBatches={setBatches}
             handleChange={handleChange}
-            updateBatch={updateBatch}
             handleDestroy={handleDestroy}
-            errors={errors}
-            setErrrors={setErrors}
           />
         </div>
       </div>
@@ -86,7 +78,6 @@ const BatchesContainerCard = () => {
           setFormData={setFormData}
           handleSubmit={handleSubmit}
           handleChange={handleChange}
-          errors={errors}
         />
       </div>
     </MainContainer>

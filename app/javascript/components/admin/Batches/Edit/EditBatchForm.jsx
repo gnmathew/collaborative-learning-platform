@@ -1,6 +1,8 @@
 import React from 'react';
+import { useBatchesContext } from '../BatchesContext';
 
-const EditBatchForm = ({ handleChange, id, formData, setFormData, errors }) => {
+const EditBatchForm = ({ handleChange, id, formData, setFormData }) => {
+  const { errors } = useBatchesContext();
 
   return (
     <>

@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react'
+import { useBatchesContext } from '../BatchesContext'
 import EditBatchForm from './EditBatchForm'
 import { BsPencilFill } from 'react-icons/bs'
 import { closeModal } from '../../../../utils/modalUtils'
 
-const EditBatchModal = ({id, attributes, handleChange, updateBatch, errors, setErrors}) => {
+const EditBatchModal = ({id, attributes, handleChange}) => {
+  const { updateBatch, setErrors } = useBatchesContext();
   const [formData, setFormData] = useState({});
 
   useEffect(() => {
@@ -34,7 +36,6 @@ const EditBatchModal = ({id, attributes, handleChange, updateBatch, errors, setE
               formData={formData}
               setFormData={setFormData}
               id={id}
-              errors={errors}
               />
             </div>
             <div className="modal-footer">

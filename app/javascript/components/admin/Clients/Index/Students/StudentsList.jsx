@@ -2,8 +2,10 @@ import React from "react";
 import EditClientModal from "../../Edit/EditClientModal";
 import DeleteClientModal from "../../DeleteClientModal";
 import { BsCircleFill } from "react-icons/bs";
+import { useClientsContext } from "../../ClientsContext";
 
-const StudentsList = ({ students, selectedTab, updateClient, handleDestroy, handleChange, batches, errors, setErrors }) => {
+const StudentsList = ({ selectedTab, handleDestroy, handleChange }) => {
+  const { students } = useClientsContext();
 
   if (students.length === 0) {
     return (
@@ -33,10 +35,6 @@ const StudentsList = ({ students, selectedTab, updateClient, handleDestroy, hand
                 {...student}
                 selectedTab={selectedTab}
                 handleChange={handleChange}
-                batches={batches}
-                updateClient={updateClient}
-                errors={errors}
-                setErrors={setErrors}
               />
               <DeleteClientModal
                 {...student}

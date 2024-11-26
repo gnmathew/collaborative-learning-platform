@@ -1,8 +1,10 @@
 import React from "react";
 import DeleteClientModal from "../../DeleteClientModal"
 import EditClientModal from "../../Edit/EditClientModal";
+import { useClientsContext } from "../../ClientsContext";
 
-const TeachersList = ({ teachers, selectedTab, handleChange, handleDestroy, batches, updateClient, errors, setErrors }) => {
+const TeachersList = ({ selectedTab, handleChange, handleDestroy }) => {
+  const { teachers } = useClientsContext();
 
   if (teachers.length === 0) {
     return (
@@ -26,10 +28,6 @@ const TeachersList = ({ teachers, selectedTab, handleChange, handleDestroy, batc
                 {...teacher}
                 selectedTab={selectedTab}
                 handleChange={handleChange}
-                batches={batches}
-                updateClient={updateClient}
-                errors={errors}
-                setErrors={setErrors}
               />
               <DeleteClientModal
                 {...teacher}
