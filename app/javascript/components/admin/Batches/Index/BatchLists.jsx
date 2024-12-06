@@ -3,7 +3,7 @@ import EditBatchModal from '../Edit/EditBatchModal'
 import DeleteBatchModal from '../DeleteBatchModal'
 import { useBatchesContext } from '../BatchesContext';
 
-const BatchLists = ({ handleChange, handleDestroy }) => {
+const BatchLists = ({ handleChange, handleDestroy, location }) => {
   const { batches } = useBatchesContext();
 
   if (batches.length === 0) {
@@ -18,19 +18,21 @@ const BatchLists = ({ handleChange, handleDestroy }) => {
     <>
       {batches.map(batch => {
         return (
-          <tr className="table-dark" key={batch.id}>
+          <tr className="table-light" key={batch.id}>
             <td className="px-5">{batch.attributes.name}</td>
             <td className="px-5">{batch.attributes.status}</td>
-            <td className="px-5">
-              <EditBatchModal
-                {...batch}
-                handleChange={handleChange}
-              />
-              <DeleteBatchModal
-                {...batch}
-                handleDestroy={handleDestroy}
-              />
-            </td>
+            {location.pathname !== "/" && (
+              <td className="px-5">
+                <EditBatchModal
+                  {...batch}
+                  handleChange={handleChange}
+                />
+                <DeleteBatchModal
+                  {...batch}
+                  handleDestroy={handleDestroy}
+                />
+              </td>
+            )}
           </tr>
         )
       })}

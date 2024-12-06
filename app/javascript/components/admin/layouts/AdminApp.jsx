@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import AdminRoutes from '../routes/AdminRoutes';
-import NavBar from "./NavBar"
+import AdminRoutes from '../../routes/AdminRoutes';
 
 const AdminApp = () => {
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
@@ -15,12 +14,7 @@ const AdminApp = () => {
     }
   },[token])
 
-  return (
-    <div>
-      { isLoggedIn && <NavBar setIsLoggedIn={setIsLoggedIn}/> }
-      <AdminRoutes setIsLoggedIn={setIsLoggedIn}/>
-    </div>
-  );
+  return (<AdminRoutes setIsLoggedIn={setIsLoggedIn}/>);
 };
 
 export default AdminApp;

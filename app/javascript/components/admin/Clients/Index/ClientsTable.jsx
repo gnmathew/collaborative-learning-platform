@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react'
+import { useLocation } from "react-router-dom";
 import styled from 'styled-components'
 import StudentsTable from "./Students/StudentsTable"
 import TeachersTable from './Teachers/TeachersTable'
 import NewClientModal from '../New/NewClientModal'
+import ViewTableBtn from '../../../ui/buttons/ViewTableBtn';
 import { BsPlusCircleFill } from "react-icons/bs"
 import { closeModal } from '../../../../utils/modalUtils'
 import { useClientsContext } from '../ClientsContext'
 
 const MainContainer = styled.div`
-  margin-top: 5%;
-  display: flex;
-  justify-content: center;
+  max-width: 1780px;
+  margin: auto;
+  margin-top: 2%;
   text-align: center;
-  gap: 40px;
 `
 
 const TabBtn = styled.button`
@@ -27,6 +28,7 @@ const ClientsTable = () => {
   const [selectedTab, setSelectedTab] = useState('students');
   const [formData, setFormData] = useState({})
   const { createClient, deleteClient, setErrors } = useClientsContext();
+  const location = useLocation();
 
   useEffect(() => {
     setFormData((prev) => ({
@@ -68,11 +70,11 @@ const ClientsTable = () => {
     <>
       <MainContainer>
         <div className="card text-center">
-          <div className="card-header bg-dark text-light">
+          <div className="card-header text-light">
             <ul className="nav nav-tabs card-header-tabs">
               <li className="nav-item">
                 <TabBtn
-                  className={`nav-link ${selectedTab === 'students' ? 'active' : ''}`}
+                  className={`nav-link ${selectedTab === 'students' ? 'active' : 'text-muted'}`}
                   onClick={() => handleTabChange('students')}
                 >
                   Students
@@ -80,13 +82,14 @@ const ClientsTable = () => {
               </li>
               <li className="nav-item">
                 <TabBtn
-                  className={`nav-link ${selectedTab === 'teachers' ? 'active' : ''}`}
+                  className={`nav-link ${selectedTab === 'teachers' ? 'active' : 'text-muted'}`}
                   onClick={() => handleTabChange('teachers')}
                 >
                   Teachers
                 </TabBtn>
               </li>
               <li className="nav-item ms-auto">
+              {location.pathname !== "/" ? (
                 <button
                   type="button"
                   className="btn btn-success btn-sm"
@@ -97,6 +100,9 @@ const ClientsTable = () => {
                   <BsPlusCircleFill style={{ marginRight: '5px', marginBottom: '5px' }} />
                   Add User
                 </button>
+              ) : (
+                <ViewTableBtn path={"/koda-board/admin/clients"}/>
+              )}
               </li>
             </ul>
           </div>
@@ -106,6 +112,7 @@ const ClientsTable = () => {
               selectedTab={selectedTab}
               handleChange={handleChange}
               handleDestroy={handleDestroy}
+              location={location}
               />
             )}
             {selectedTab === 'teachers' && (
@@ -113,6 +120,7 @@ const ClientsTable = () => {
                 selectedTab={selectedTab}
                 handleChange={handleChange}
                 handleDestroy={handleDestroy}
+                location={location}
               />
             )}
           </div>
