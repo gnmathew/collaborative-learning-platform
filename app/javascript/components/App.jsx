@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import ClientApp from "./client/ClientApp";
-import AdminApp from "./admin/AdminApp";
+import AdminApp from "./admin/layouts/AdminApp";
 import { Toaster } from "react-hot-toast";
 
 const App = () => {

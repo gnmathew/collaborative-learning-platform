@@ -4,7 +4,7 @@ import DeleteClientModal from "../../DeleteClientModal";
 import { BsCircleFill } from "react-icons/bs";
 import { useClientsContext } from "../../ClientsContext";
 
-const StudentsList = ({ selectedTab, handleDestroy, handleChange }) => {
+const StudentsList = ({ selectedTab, handleDestroy, handleChange, location }) => {
   const { students } = useClientsContext();
 
   if (students.length === 0) {
@@ -21,26 +21,28 @@ const StudentsList = ({ selectedTab, handleDestroy, handleChange }) => {
         const statusColor = student.attributes.status === 'active' ? 'lightGreen' : 'grey';
 
         return (
-          <tr className="table-dark" key={student.id}>
-            <td className="px-5">{student.attributes.id_number}</td>
-            <td className="px-2">
+          <tr className="table-light" key={student.id}>
+            <td>{student.attributes.id_number}</td>
+            <td>
               <BsCircleFill style={{ color: statusColor, marginLeft: '4px' }} />
             </td>
-            <td className="px-5">{student.attributes.full_name}</td>
-            <td className="px-5">{student.attributes.username}</td>
-            <td className="px-5">{student.attributes.email}</td>
-            <td className="px-5">{student.attributes.batch_name}</td>
-            <td className="px-5">
-              <EditClientModal
-                {...student}
-                selectedTab={selectedTab}
-                handleChange={handleChange}
-              />
-              <DeleteClientModal
-                {...student}
-                handleDestroy={handleDestroy}
-              />
-            </td>
+            <td>{student.attributes.full_name}</td>
+            <td>{student.attributes.username}</td>
+            <td>{student.attributes.email}</td>
+            <td>{student.attributes.batch_name}</td>
+            {location.pathname !== "/" && (
+              <td>
+                <EditClientModal
+                  {...student}
+                  selectedTab={selectedTab}
+                  handleChange={handleChange}
+                />
+                <DeleteClientModal
+                  {...student}
+                  handleDestroy={handleDestroy}
+                />
+              </td>
+            )}
           </tr>
         );
       })}

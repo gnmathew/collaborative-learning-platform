@@ -1,18 +1,18 @@
 import React from 'react'
 import TeachersList from './TeachersList'
 
-const TeachersTable = ({ selectedTab, handleChange, handleDestroy }) => {
+const TeachersTable = ({ selectedTab, handleChange, handleDestroy, lcoation }) => {
 
   return (
     <div>
       <h3>Teachers</h3>
-      <table className="table table-striped table-bordered table-hover">
+      <table className="table table-striped table-hover">
         <thead>
           <tr>
-            <th scope="col" className="px-5">ID number</th>
-            <th scope="col" className="px-5">username</th>
-            <th scope="col" className="px-5">email</th>
-            <th scope="col" className="px-5">Actions</th>
+            <th>ID number</th>
+            <th>username</th>
+            <th>email</th>
+            {location.pathname !== "/" && <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -20,6 +20,7 @@ const TeachersTable = ({ selectedTab, handleChange, handleDestroy }) => {
             selectedTab={selectedTab}
             handleChange={handleChange}
             handleDestroy={handleDestroy}
+            location={location}
           />
         </tbody>
       </table>
